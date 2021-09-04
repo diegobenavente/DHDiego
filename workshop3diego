@@ -1,0 +1,885 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "id": "Qhi--ZJMNeYQ"
+   },
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: openpyxl in c:\\users\\dbenavente\\anaconda3\\envs\\dhdsblend2021\\lib\\site-packages (3.0.7)\n",
+      "Requirement already satisfied: et-xmlfile in c:\\users\\dbenavente\\anaconda3\\envs\\dhdsblend2021\\lib\\site-packages (from openpyxl) (1.1.0)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install openpyxl"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 417
+    },
+    "id": "3VvPluaMNxqs",
+    "outputId": "c6c6c385-00b3-4af2-d003-a6f8decfaa2e"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>SubscriptionID</th>\n",
+       "      <th>HH Income</th>\n",
+       "      <th>Home Ownership</th>\n",
+       "      <th>Ethnicity</th>\n",
+       "      <th>dummy for Children</th>\n",
+       "      <th>Year Of Residence</th>\n",
+       "      <th>Age range</th>\n",
+       "      <th>Language</th>\n",
+       "      <th>Address</th>\n",
+       "      <th>State</th>\n",
+       "      <th>City</th>\n",
+       "      <th>County</th>\n",
+       "      <th>Zip Code</th>\n",
+       "      <th>weekly fee</th>\n",
+       "      <th>Deliveryperiod</th>\n",
+       "      <th>Nielsen Prizm</th>\n",
+       "      <th>reward program</th>\n",
+       "      <th>Source Channel</th>\n",
+       "      <th>Subscriber</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>180590686</td>\n",
+       "      <td>$  30,000 - $39,999</td>\n",
+       "      <td>RENTER</td>\n",
+       "      <td>German</td>\n",
+       "      <td>N</td>\n",
+       "      <td>1</td>\n",
+       "      <td>25-29</td>\n",
+       "      <td>German</td>\n",
+       "      <td>1 3RD PL UNIT 703</td>\n",
+       "      <td>CA</td>\n",
+       "      <td>LONG BEACH</td>\n",
+       "      <td>LOS ANGELES</td>\n",
+       "      <td>90802</td>\n",
+       "      <td>$7.00 - $7.99</td>\n",
+       "      <td>7Day</td>\n",
+       "      <td>FM</td>\n",
+       "      <td>0</td>\n",
+       "      <td>CircAdm</td>\n",
+       "      <td>NO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>181401653</td>\n",
+       "      <td>$500,000 Plus</td>\n",
+       "      <td>OWNER</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>Y</td>\n",
+       "      <td>14</td>\n",
+       "      <td>50-54</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1 AVIGNON</td>\n",
+       "      <td>CA</td>\n",
+       "      <td>NEWPORT COAST</td>\n",
+       "      <td>ORANGE</td>\n",
+       "      <td>92657</td>\n",
+       "      <td>$0.01 - $0.50</td>\n",
+       "      <td>SunOnly</td>\n",
+       "      <td>MW</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Partner</td>\n",
+       "      <td>YES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>180374685</td>\n",
+       "      <td>$100,000 - $124,999</td>\n",
+       "      <td>OWNER</td>\n",
+       "      <td>Italian</td>\n",
+       "      <td>Y</td>\n",
+       "      <td>7</td>\n",
+       "      <td>45-49</td>\n",
+       "      <td>English</td>\n",
+       "      <td>1 BLACKSWAN</td>\n",
+       "      <td>CA</td>\n",
+       "      <td>IRVINE</td>\n",
+       "      <td>ORANGE</td>\n",
+       "      <td>92604</td>\n",
+       "      <td>$0.01 - $0.50</td>\n",
+       "      <td>SunOnly</td>\n",
+       "      <td>MW</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Partner</td>\n",
+       "      <td>YES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>180703483</td>\n",
+       "      <td>$200,000 - $249,999</td>\n",
+       "      <td>OWNER</td>\n",
+       "      <td>English</td>\n",
+       "      <td>N</td>\n",
+       "      <td>23</td>\n",
+       "      <td>55-59</td>\n",
+       "      <td>English</td>\n",
+       "      <td>1 BLUE HORIZON</td>\n",
+       "      <td>CA</td>\n",
+       "      <td>LAGUNA NIGUEL</td>\n",
+       "      <td>ORANGE</td>\n",
+       "      <td>92677</td>\n",
+       "      <td>$1.00 - $1.99</td>\n",
+       "      <td>SunOnly</td>\n",
+       "      <td>MW</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Internet</td>\n",
+       "      <td>NO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>180358906</td>\n",
+       "      <td>$  50,000 - $59,999</td>\n",
+       "      <td>OWNER</td>\n",
+       "      <td>Italian</td>\n",
+       "      <td>N</td>\n",
+       "      <td>23</td>\n",
+       "      <td>60-64</td>\n",
+       "      <td>English</td>\n",
+       "      <td>1 BRISA DEL LAGO</td>\n",
+       "      <td>CA</td>\n",
+       "      <td>RANCHO SANTA MARGARITA</td>\n",
+       "      <td>ORANGE</td>\n",
+       "      <td>92688</td>\n",
+       "      <td>$8.00 - $8.99</td>\n",
+       "      <td>Thu-Sun</td>\n",
+       "      <td>MM</td>\n",
+       "      <td>0</td>\n",
+       "      <td>Crew</td>\n",
+       "      <td>YES</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   SubscriptionID            HH Income Home Ownership Ethnicity  \\\n",
+       "0       180590686  $  30,000 - $39,999         RENTER    German   \n",
+       "1       181401653        $500,000 Plus          OWNER   unknown   \n",
+       "2       180374685  $100,000 - $124,999          OWNER   Italian   \n",
+       "3       180703483  $200,000 - $249,999          OWNER   English   \n",
+       "4       180358906  $  50,000 - $59,999          OWNER   Italian   \n",
+       "\n",
+       "  dummy for Children  Year Of Residence Age range Language            Address  \\\n",
+       "0                  N                  1     25-29   German  1 3RD PL UNIT 703   \n",
+       "1                  Y                 14     50-54      NaN          1 AVIGNON   \n",
+       "2                  Y                  7     45-49  English        1 BLACKSWAN   \n",
+       "3                  N                 23     55-59  English     1 BLUE HORIZON   \n",
+       "4                  N                 23     60-64  English   1 BRISA DEL LAGO   \n",
+       "\n",
+       "  State                    City       County  Zip Code     weekly fee  \\\n",
+       "0    CA              LONG BEACH  LOS ANGELES     90802  $7.00 - $7.99   \n",
+       "1    CA           NEWPORT COAST       ORANGE     92657  $0.01 - $0.50   \n",
+       "2    CA                  IRVINE       ORANGE     92604  $0.01 - $0.50   \n",
+       "3    CA           LAGUNA NIGUEL       ORANGE     92677  $1.00 - $1.99   \n",
+       "4    CA  RANCHO SANTA MARGARITA       ORANGE     92688  $8.00 - $8.99   \n",
+       "\n",
+       "  Deliveryperiod Nielsen Prizm  reward program Source Channel Subscriber  \n",
+       "0           7Day            FM               0        CircAdm         NO  \n",
+       "1        SunOnly            MW               0        Partner        YES  \n",
+       "2        SunOnly            MW               0        Partner        YES  \n",
+       "3        SunOnly            MW               1       Internet         NO  \n",
+       "4        Thu-Sun            MM               0           Crew        YES  "
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data = pd.read_excel(r'C:\\Users\\dbenavente\\Desktop\\DS21\\workshop3\\churn.xlsx', engine = 'openpyxl')\n",
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "v7JKuXG0O9SO"
+   },
+   "source": [
+    "****Falta Analizar Outilers****\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "id": "Y4uMKo4NOChm",
+    "outputId": "d895ba77-3b72-4de9-9616-c2b968e467a7"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(15855, 19)"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "id": "QoMd-5bjOJdh",
+    "outputId": "6c473978-ace0-49f3-a536-b5a7baf34898"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "SubscriptionID         int64\n",
+       "HH Income             object\n",
+       "Home Ownership        object\n",
+       "Ethnicity             object\n",
+       "dummy for Children    object\n",
+       "Year Of Residence      int64\n",
+       "Age range             object\n",
+       "Language              object\n",
+       "Address               object\n",
+       "State                 object\n",
+       "City                  object\n",
+       "County                object\n",
+       "Zip Code               int64\n",
+       "weekly fee            object\n",
+       "Deliveryperiod        object\n",
+       "Nielsen Prizm         object\n",
+       "reward program         int64\n",
+       "Source Channel        object\n",
+       "Subscriber            object\n",
+       "dtype: object"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.dtypes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "id": "orvFZ7qFOS3Z",
+    "outputId": "9ff91323-86dd-441f-ccbf-6630769d7f94"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "SubscriptionID           0\n",
+       "HH Income                0\n",
+       "Home Ownership           0\n",
+       "Ethnicity                0\n",
+       "dummy for Children       0\n",
+       "Year Of Residence        0\n",
+       "Age range              108\n",
+       "Language              1007\n",
+       "Address                  0\n",
+       "State                    0\n",
+       "City                     0\n",
+       "County                   0\n",
+       "Zip Code                 0\n",
+       "weekly fee             186\n",
+       "Deliveryperiod           0\n",
+       "Nielsen Prizm          129\n",
+       "reward program           0\n",
+       "Source Channel           0\n",
+       "Subscriber               0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.isna().sum()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "id": "cQOv2iCtO3zd",
+    "outputId": "7676faca-7c52-48fa-de79-9f41e50a6b7a"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "HH Income             object\n",
+       "Home Ownership        object\n",
+       "Ethnicity             object\n",
+       "dummy for Children    object\n",
+       "Year Of Residence      int64\n",
+       "Age range             object\n",
+       "County                object\n",
+       "Zip Code               int64\n",
+       "weekly fee            object\n",
+       "Deliveryperiod        object\n",
+       "reward program         int64\n",
+       "Source Channel        object\n",
+       "Subscriber            object\n",
+       "dtype: object"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.drop(['Language','SubscriptionID', 'Address', 'State', 'Nielsen Prizm','City'], inplace=True, axis=1)\n",
+    "data.dtypes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 307
+    },
+    "id": "DnFuLv0gSfpN",
+    "outputId": "f4d86020-b94d-4d5e-8346-cc054b2374ab"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>HH Income_$  20,000 - $29,999</th>\n",
+       "      <th>HH Income_$  30,000 - $39,999</th>\n",
+       "      <th>HH Income_$  40,000 - $49,999</th>\n",
+       "      <th>HH Income_$  50,000 - $59,999</th>\n",
+       "      <th>HH Income_$  60,000 - $69,999</th>\n",
+       "      <th>HH Income_$  70,000 - $79,999</th>\n",
+       "      <th>HH Income_$  80,000 - $89,999</th>\n",
+       "      <th>HH Income_$  90,000 - $99,999</th>\n",
+       "      <th>HH Income_$100,000 - $124,999</th>\n",
+       "      <th>HH Income_$125,000 - $149,999</th>\n",
+       "      <th>...</th>\n",
+       "      <th>Source Channel_System</th>\n",
+       "      <th>Source Channel_TMC</th>\n",
+       "      <th>Source Channel_TeleIn</th>\n",
+       "      <th>Source Channel_TeleOut</th>\n",
+       "      <th>Source Channel_VRU</th>\n",
+       "      <th>Source Channel_iSrvices</th>\n",
+       "      <th>Year Of Residence</th>\n",
+       "      <th>Zip Code</th>\n",
+       "      <th>reward program</th>\n",
+       "      <th>Subscriber</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>90802</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>14</td>\n",
+       "      <td>92657</td>\n",
+       "      <td>0</td>\n",
+       "      <td>YES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>7</td>\n",
+       "      <td>92604</td>\n",
+       "      <td>0</td>\n",
+       "      <td>YES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>23</td>\n",
+       "      <td>92677</td>\n",
+       "      <td>1</td>\n",
+       "      <td>NO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>...</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>23</td>\n",
+       "      <td>92688</td>\n",
+       "      <td>0</td>\n",
+       "      <td>YES</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 208 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   HH Income_$  20,000 - $29,999  HH Income_$  30,000 - $39,999  \\\n",
+       "0                              0                              1   \n",
+       "1                              0                              0   \n",
+       "2                              0                              0   \n",
+       "3                              0                              0   \n",
+       "4                              0                              0   \n",
+       "\n",
+       "   HH Income_$  40,000 - $49,999  HH Income_$  50,000 - $59,999  \\\n",
+       "0                              0                              0   \n",
+       "1                              0                              0   \n",
+       "2                              0                              0   \n",
+       "3                              0                              0   \n",
+       "4                              0                              1   \n",
+       "\n",
+       "   HH Income_$  60,000 - $69,999  HH Income_$  70,000 - $79,999  \\\n",
+       "0                              0                              0   \n",
+       "1                              0                              0   \n",
+       "2                              0                              0   \n",
+       "3                              0                              0   \n",
+       "4                              0                              0   \n",
+       "\n",
+       "   HH Income_$  80,000 - $89,999  HH Income_$  90,000 - $99,999  \\\n",
+       "0                              0                              0   \n",
+       "1                              0                              0   \n",
+       "2                              0                              0   \n",
+       "3                              0                              0   \n",
+       "4                              0                              0   \n",
+       "\n",
+       "   HH Income_$100,000 - $124,999  HH Income_$125,000 - $149,999  ...  \\\n",
+       "0                              0                              0  ...   \n",
+       "1                              0                              0  ...   \n",
+       "2                              1                              0  ...   \n",
+       "3                              0                              0  ...   \n",
+       "4                              0                              0  ...   \n",
+       "\n",
+       "   Source Channel_System  Source Channel_TMC  Source Channel_TeleIn  \\\n",
+       "0                      0                   0                      0   \n",
+       "1                      0                   0                      0   \n",
+       "2                      0                   0                      0   \n",
+       "3                      0                   0                      0   \n",
+       "4                      0                   0                      0   \n",
+       "\n",
+       "   Source Channel_TeleOut  Source Channel_VRU  Source Channel_iSrvices  \\\n",
+       "0                       0                   0                        0   \n",
+       "1                       0                   0                        0   \n",
+       "2                       0                   0                        0   \n",
+       "3                       0                   0                        0   \n",
+       "4                       0                   0                        0   \n",
+       "\n",
+       "   Year Of Residence  Zip Code  reward program  Subscriber  \n",
+       "0                  1     90802               0          NO  \n",
+       "1                 14     92657               0         YES  \n",
+       "2                  7     92604               0         YES  \n",
+       "3                 23     92677               1          NO  \n",
+       "4                 23     92688               0         YES  \n",
+       "\n",
+       "[5 rows x 208 columns]"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data1 = pd.concat([pd.get_dummies(data[data.select_dtypes(include = 'object').columns[:-1]]), \n",
+    "                             data.select_dtypes(include = 'int64'),\n",
+    "                             data.Subscriber], axis = 1)\n",
+    "data1.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "NO     0.808452\n",
+       "YES    0.191548\n",
+       "Name: Subscriber, dtype: float64"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "y.value_counts(normalize=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/"
+    },
+    "id": "vrTze6wvQJ5E",
+    "outputId": "54142eeb-dce4-46ed-ef24-8e64f2a5110e"
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "((10622, 207), (5233, 207), (10622,), (5233,))"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from sklearn.model_selection import train_test_split\n",
+    "\n",
+    "X = data1.drop('Subscriber', axis = 1)\n",
+    "y = data1['Subscriber']\n",
+    "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)\n",
+    "X_train.shape, X_test.shape, y_train.shape, y_test.shape\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 235
+    },
+    "id": "vNjdSLe2RQ2-",
+    "outputId": "275d4812-1eaf-42aa-80bd-6540b81062f3"
+   },
+   "outputs": [],
+   "source": [
+    "from sklearn import linear_model\n",
+    "from sklearn import svm\n",
+    "from sklearn import neighbors\n",
+    "from sklearn import naive_bayes\n",
+    "from sklearn import gaussian_process\n",
+    "from sklearn import tree\n",
+    "from sklearn import ensemble\n",
+    "\n",
+    "lr_model = linear_model.LogisticRegression(max_iter = 10000).fit(X_train, y_train).predict(X_test)\n",
+    "svm_model = svm.SVC().fit(X_train, y_train).predict(X_test)\n",
+    "sgd_model = linear_model.SGDClassifier().fit(X_train, y_train).predict(X_test)\n",
+    "knn_model = neighbors.KNeighborsClassifier().fit(X_train, y_train).predict(X_test)\n",
+    "nb_model = naive_bayes.GaussianNB().fit(X_train, y_train).predict(X_test)\n",
+    "gp_model = gaussian_process.GaussianProcessClassifier().fit(X_train, y_train).predict(X_test)\n",
+    "dt_model = tree.DecisionTreeClassifier().fit(X_train, y_train).predict(X_test)\n",
+    "bg_model = ensemble.BaggingClassifier().fit(X_train, y_train).predict(X_test)\n",
+    "rf_model = ensemble.RandomForestClassifier().fit(X_train, y_train).predict(X_test)\n",
+    "gb_model = ensemble.GradientBoostingClassifier().fit(X_train, y_train).predict(X_test)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import accuracy_score\n",
+    "\n",
+    "lr_model_acc = accuracy_score(y_test, lr_model)\n",
+    "svm_model_acc = accuracy_score(y_test, svm_model)\n",
+    "sgd_model_acc = accuracy_score(y_test, sgd_model)\n",
+    "knn_model_acc = accuracy_score(y_test, knn_model)\n",
+    "nb_model_acc = accuracy_score(y_test, nb_model)\n",
+    "gp_model_acc = accuracy_score(y_test, gp_model)\n",
+    "dt_model_acc = accuracy_score(y_test, dt_model)\n",
+    "bg_model_acc = accuracy_score(y_test, bg_model)\n",
+    "rf_model_acc = accuracy_score(y_test, rf_model)\n",
+    "gb_model_acc = accuracy_score(y_test, gb_model)\n",
+    "\n",
+    "accuracies = [lr_model_acc, svm_model_acc, sgd_model_acc, knn_model_acc, nb_model_acc, gp_model_acc, dt_model_acc, bg_model_acc, rf_model_acc, gb_model_acc]\n",
+    "accuracies = pd.DataFrame(accuracies)\n",
+    "accuracies.rename(columns = {0 : 'Accuracies'})\n",
+    "modelos = ['Logistic Regression', 'Support Vector Machine', 'Stochastic Gradient Descent', 'K Nearest Neighbor', 'Naive Bayes', 'Gaussian Process', 'Decision Tree', 'Bagging', 'Random Forest', 'Gradient Boosting']\n",
+    "accuracies.index = modelos"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: prettytable in c:\\users\\dbenavente\\anaconda3\\envs\\dhdsblend2021\\lib\\site-packages (2.2.0)Note: you may need to restart the kernel to use updated packages.\n",
+      "\n",
+      "Requirement already satisfied: wcwidth in c:\\users\\dbenavente\\anaconda3\\envs\\dhdsblend2021\\lib\\site-packages (from prettytable) (0.2.5)\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install prettytable"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "+-----------------------------+----------+\n",
+      "|            Modelo           | Accuracy |\n",
+      "+-----------------------------+----------+\n",
+      "|         Naive Bayes         |  63.88   |\n",
+      "|       Gaussian Process      |  79.86   |\n",
+      "|      K Nearest Neighbor     |  79.88   |\n",
+      "|        Decision Tree        |  80.26   |\n",
+      "| Stochastic Gradient Descent |  80.58   |\n",
+      "|    Support Vector Machine   |  80.58   |\n",
+      "|     Logistic Regression     |  80.97   |\n",
+      "|           Bagging           |  84.75   |\n",
+      "|      Gradient Boosting      |  85.08   |\n",
+      "|        Random Forest        |  85.63   |\n",
+      "+-----------------------------+----------+\n"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "from prettytable import PrettyTable\n",
+    "x = PrettyTable()\n",
+    "x.field_names = [\"Modelo\", \"Accuracy\"]\n",
+    "\n",
+    "for i in range(accuracies.shape[0]):\n",
+    "  x.add_row([modelos[i], round(accuracies.iloc[i,0] * 100, 2)])\n",
+    "\n",
+    "print(x.get_string(sortby=\"Accuracy\"))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "ver si hay outliers\n",
+    "definir cual es la metrica a maximizar\n",
+    "evaluar modelo base \n",
+    "utilizar gridsearch\n",
+    "definir la metrica que queremos maximizar(precision, recall)\n",
+    "ver si aplica standfar scaler\n",
+    "incorporar matriz de confusion.\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "***hay que incorporar  la utilizacion de Grisearch***"
+   ]
+  }
+ ],
+ "metadata": {
+  "colab": {
+   "name": "Untitled4.ipynb",
+   "provenance": []
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
